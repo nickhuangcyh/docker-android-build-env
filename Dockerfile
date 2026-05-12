@@ -41,4 +41,6 @@ RUN curl -fsSL -o /tmp/rclone.deb https://downloads.rclone.org/rclone-current-li
     && dpkg -i /tmp/rclone.deb \
     && rm /tmp/rclone.deb
 
-ENV GRADLE_USER_HOME=/home/jenkins/.gradle
+# Gradle cache directory (writable by any uid, since Jenkins runs container with host uid)
+RUN mkdir -p /opt/gradle-cache && chmod 777 /opt/gradle-cache
+ENV GRADLE_USER_HOME=/opt/gradle-cache
