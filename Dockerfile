@@ -34,7 +34,8 @@ RUN mkdir -p ${ANDROID_HOME}/cmdline-tools \
 
 # Accept licenses and install SDK components
 RUN yes | sdkmanager --licenses \
-    && sdkmanager "platform-tools" "platforms;android-28" "platforms;android-34" "ndk;27.0.12077973" "build-tools;34.0.0"
+    && sdkmanager "platform-tools" "platforms;android-28" "platforms;android-34" "ndk;27.0.12077973" "build-tools;34.0.0" \
+    && chmod -R 777 ${ANDROID_HOME}
 
 # Install rclone
 RUN curl -fsSL -o /tmp/rclone.deb https://downloads.rclone.org/rclone-current-linux-amd64.deb \
@@ -42,5 +43,6 @@ RUN curl -fsSL -o /tmp/rclone.deb https://downloads.rclone.org/rclone-current-li
     && rm /tmp/rclone.deb
 
 # Gradle cache directory (writable by any uid, since Jenkins runs container with host uid)
-RUN mkdir -p /opt/gradle-cache && chmod 777 /opt/gradle-cache
+RUN mkdir -p /opt/gradle-cache /tmp/.android && chmod 777 /opt/gradle-cache /tmp/.android
 ENV GRADLE_USER_HOME=/opt/gradle-cache
+ENV ANDROID_USER_HOME=/tmp/.android
