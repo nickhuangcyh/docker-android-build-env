@@ -34,7 +34,10 @@ RUN mkdir -p ${ANDROID_HOME}/cmdline-tools \
 
 # Accept licenses and install SDK components
 RUN yes | sdkmanager --licenses \
-    && sdkmanager "platform-tools" "platforms;android-28" "platforms;android-34" "ndk;27.0.12077973" "build-tools;34.0.0" \
+    && sdkmanager "platform-tools" \
+        "platforms;android-26" "platforms;android-28" "platforms;android-30" "platforms;android-35" \
+        "ndk;27.0.12077973" \
+        "build-tools;26.0.3" "build-tools;28.0.3" "build-tools;30.0.3" "build-tools;35.0.0" \
     && chmod -R 777 ${ANDROID_HOME}
 
 # Install rclone
